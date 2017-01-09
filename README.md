@@ -1,3 +1,5 @@
+![Alt text](Detection3d.PNG?raw=true "Web Portal in Angular and MVC showing 3d plot of Kmeans")
+
 I.	Introduction
 Anomaly Detection API is a project that clusters given data based on their similarities. This project uses the K-mean algorithm to detect similarity which results on depending on Euclidean distances and thus we can only deal with numeric data. This Project has two main parts:
 -	Part 1: take samples and cluster them. In this phase the program will learn about the clusters and thus can be considered as the learning phase.
