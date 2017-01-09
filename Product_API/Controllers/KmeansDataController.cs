@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using AnomalyDetection.Interface;
-using System.Web.Http.Cors;
+using System.Web.Hosting;
 
 namespace Kmeans_Web_API.Controllers
 {
     //[EnableCors(origins: "http://localhost:3442", headers: "*", methods: "*")]
     public class KmeansDataController : ApiController
     {
-        
+
+        //System.Web.HttpContext.Current.Server.MapPath("File1.t‌​xt");
+         //   HttpContext.Current.Server.MapPath("~/Data/data.html");
+          //  HostingEnvironment.MapPath("~/Data/data.html");
+         
         public static Lazy<List<KmeansData>> kmeansdata = new Lazy<List<KmeansData>>();//Static variable use only for demo, don’t use unless until require in project. 
         public static int PgaeLoadFlag = 1; // Page load count. 
         public static int ProductID = 4;
@@ -23,26 +27,26 @@ namespace Kmeans_Web_API.Controllers
             {
                 numofclstrs = 3;
             }
-
+            string pth= HostingEnvironment.MapPath("~/Data/data.html");
             int numberofclusters = 3;
             /// desired number of clusters
             int numberofattributes = 2;
             /// X,Y,Z components
             
 
-            double[][] result = MockApi.MockApi.CSVtoDoubleJaggedArray(@"F:\ProData\data.csv");
+            double[][] result = MockApi.MockApi.CSVtoDoubleJaggedArray(HostingEnvironment.MapPath("~/FileUpload/data.csv"));
             /// CSV to Array Conversion
-            if (System.IO.File.Exists(@"F:\ProData\data.csv"))
+            if (System.IO.File.Exists(HostingEnvironment.MapPath("~/FileUpload/data.csv")))
                 numberofattributes = result[0].Length;
             /// Number of attributes are 3 for 3D and 2 for 2D
             IAnomalyDetectionApi X = new AnomalyDetectionApi.AnomalyDetectionAPI(result, numofclstrs);
-            ClusteringSettings Y = new ClusteringSettings(result, 10, numofclstrs, numberofattributes, @"F:\ProData\cluster.json",Replace:true);
+            ClusteringSettings Y = new ClusteringSettings(result, 10, numofclstrs, numberofattributes, HostingEnvironment.MapPath("~/FileUpload/cluster.json"),Replace:true);
             /// Set number of clusters, max iterations and give data in result
             X.ImportNewDataForClustering(Y);
             /// CheckSample is a function that detect to which cluster the given sample belongs to.
             ClusteringResults[] r;
             /// All the Kmeans results needed for plotting
-            AnomalyDetectionResponse Z = X.GetResults(@"F:\ProData\cluster.json", out r);
+            AnomalyDetectionResponse Z = X.GetResults(HostingEnvironment.MapPath("~/FileUpload/cluster.json"), out r);
             /// Codes for Errors and Success
             //if (PgaeLoadFlag == 1) //use this only for first time page load
             //{
@@ -115,19 +119,19 @@ namespace Kmeans_Web_API.Controllers
                 /// X,Y,Z components
 
 
-                double[][] result = MockApi.MockApi.CSVtoDoubleJaggedArray(@"F:\ProData\data.csv");
+                double[][] result = MockApi.MockApi.CSVtoDoubleJaggedArray(HostingEnvironment.MapPath("~/FileUpload/data.csv"));
                 /// CSV to Array Conversion
                 if (System.IO.File.Exists(@"F:\ProData\data.csv"))
                     numberofattributes = result[0].Length;
                 /// Number of attributes are 3 for 3D and 2 for 2D
                 IAnomalyDetectionApi X = new AnomalyDetectionApi.AnomalyDetectionAPI(result, numofclstrs);
-                ClusteringSettings Y = new ClusteringSettings(result, 10, numofclstrs, numberofattributes, @"F:\ProData\cluster.json", Replace:true);
+                ClusteringSettings Y = new ClusteringSettings(result, 10, numofclstrs, numberofattributes, HostingEnvironment.MapPath("~/FileUpload/cluster.json"), Replace:true);
                 /// Set number of clusters, max iterations and give data in result
                 AnomalyDetectionResponse AB = X.ImportNewDataForClustering(Y);
                 /// CheckSample is a function that detect to which cluster the given sample belongs to.
                 ClusteringResults[] r;
                 /// All the Kmeans results needed for plotting
-                AnomalyDetectionResponse Z = X.GetResults(@"F:\ProData\cluster.json", out r);
+                AnomalyDetectionResponse Z = X.GetResults(HostingEnvironment.MapPath("~/FileUpload/cluster.json"), out r);
                 /// Codes for Errors and Success
                 //if (PgaeLoadFlag == 1) //use this only for first time page load
                 //{
@@ -165,25 +169,25 @@ namespace Kmeans_Web_API.Controllers
             /// desired number of clusters
             int numberofattributes = 3;
             /// X,Y,Z components
-            double[][] result = MockApi.MockApi.CSVtoDoubleJaggedArray(@"F:\ProData\data.csv");
+            double[][] result = MockApi.MockApi.CSVtoDoubleJaggedArray(HostingEnvironment.MapPath("~/FileUpload/data.csv"));
             /// CSV to Array Conversion
-            if (System.IO.File.Exists(@"F:\ProData\data.csv"))
+            if (System.IO.File.Exists(HostingEnvironment.MapPath("~/FileUpload/data.csv")))
                 numberofattributes = result[0].Length;
             if (numberofattributes == data.ClustersDataLength)
             {
                 /// Number of attributes are 3 for 3D and 2 for 2D
                 IAnomalyDetectionApi X = new AnomalyDetectionApi.AnomalyDetectionAPI(result, numofclstrs);
-                ClusteringSettings Y = new ClusteringSettings(result, 10, numofclstrs, numberofattributes, @"F:\ProData\cluster.json");
+                ClusteringSettings Y = new ClusteringSettings(result, 10, numofclstrs, numberofattributes, HostingEnvironment.MapPath("~/FileUpload/cluster.json"));
                 /// Set number of clusters, max iterations and give data in result
                 X.ImportNewDataForClustering(Y);
                 /// CheckSample is a function that detect to which cluster the given sample belongs to.
                 ClusteringResults[] r;
                 /// All the Kmeans results needed for plotting
-                AnomalyDetectionResponse Z = X.GetResults(@"F:\ProData\cluster.json", out r);
+                AnomalyDetectionResponse Z = X.GetResults(HostingEnvironment.MapPath("~/FileUpload/cluster.json"), out r);
                 
                 if (numberofattributes == 3) {
                     double[] sample = new double[3] { data.XaxisCheck, data.YaxisCheck, data.ZaxisCheck };
-                    CheckingSampleSettings A = new CheckingSampleSettings(@"F:\ProData\cluster.json", sample, 10);
+                    CheckingSampleSettings A = new CheckingSampleSettings(HostingEnvironment.MapPath("~/FileUpload/cluster.json"), sample, 10);
                     int N;
                     Z = X.CheckSample(A, out N);
                     data.CheckSampleResult = Z.Message;

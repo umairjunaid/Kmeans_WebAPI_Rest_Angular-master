@@ -21,20 +21,22 @@ namespace Kmeans_Web_API.Controllers
         [HttpPost]
         public virtual string UploadFile(object obj)
         {
+            Server.MapPath("File1.t‌​xt");
             var length = Request.ContentLength;//Post Data
             var bytes = new byte[length];
             Request.InputStream.Read(bytes, 0, length);
-            if (System.IO.File.Exists(@"F:\ProData\cluster.json"))// in case some files exist already delete them and upload the current one
+           string strpath = Server.MapPath("File1.t‌​xt");
+            if (System.IO.File.Exists(Server.MapPath("cluster.json")));// in case some files exist already delete them and upload the current one
             {
-                System.IO.File.Delete(@"F:\ProData\cluster.json");
-                System.IO.File.Delete(@"F:\ProData\Result\cluster.json");
+                System.IO.File.Delete(Server.MapPath("cluster.json"));
+                System.IO.File.Delete(Server.MapPath("cluster.json"));
             }
             var fileName = Request.Headers["X-File-Name"];
             var fileSize = Request.Headers["X-File-Size"];
             var fileType = Request.Headers["X-File-Type"];
 
             fileName = "data.csv";
-            var saveToFileLoc = @"F:\ProData\" + fileName; //Upload the file to folder
+            var saveToFileLoc = Server.MapPath("data.csv") ; //Upload the file to folder
             // save the file.
             var fileStream = new FileStream(saveToFileLoc, FileMode.Create, FileAccess.ReadWrite);
             fileStream.Write(bytes, 0, length);
