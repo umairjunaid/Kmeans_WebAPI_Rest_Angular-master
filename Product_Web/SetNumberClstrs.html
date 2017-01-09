@@ -1,0 +1,50 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Kmeans Set Number of Clusters</title>
+    <script src="App_Content/JS/angular.min.js"></script>
+    <meta http-Equiv="Cache-Control" Content="no-cache" />
+    <meta http-Equiv="Pragma" Content="no-cache" />
+    <meta http-Equiv="Expires" Content="0" />
+</head>
+<body ng-app="KmeansDataCheck">
+    <script>
+        angular.module('KmeansDataCheck', [])
+        .controller('KmeansDataCheckController', ['$scope', '$http', function ($scope, $http) {
+            $scope.submit = function () {
+                if ($scope.Numb) {
+                    var product = {
+                        "NumberOfClstrs": $scope.Numb
+                        
+                    }
+              
+                    $http.post('http://localhost:2222/api/api/kmeansdata', product).
+                    success(function (data, status, headers, config) {
+                    }).
+                    error(function (data, status, headers, config) {
+                        //alert("erro");
+                    });
+                }//2D Case
+
+            };
+        }]);
+    </script>
+    <script>
+        function showGraph() {
+            var iframe = $("#forshowGraph");
+            iframe.attr("src", iframe.data("src"));
+        } 
+    </script>
+    <h2>Set Number of Clusters</h2>
+    <form ng-submit="submit()" ng-controller="KmeansDataCheckController">
+        <div>Number of Clusters:<input type="text" ng-model="Numb" required></div></br>
+        <div> <input type="submit" id="productsubmit" value="Set Clusters" onClick="parent.location='index.html'"/></div>
+        
+    </form>
+    <script src="App_Content/JS/jquery.min.js"></script>
+    <iframe id="forshowGraph" data-src="index.html" src="about:blank" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0"></iframe>
+
+
+        
+</body>
+</html>

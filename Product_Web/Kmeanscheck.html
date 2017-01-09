@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Kmeans Sample Check</title>
+    <script src="App_Content/JS/angular.min.js"></script>
+    <meta http-Equiv="Cache-Control" Content="no-cache" />
+    <meta http-Equiv="Pragma" Content="no-cache" />
+    <meta http-Equiv="Expires" Content="0" />
+</head>
+<body ng-app="KmeansDataCheck">
+    <script>
+        angular.module('KmeansDataCheck', [])
+        .controller('KmeansDataCheckController', ['$scope', '$http', function ($scope, $http) {
+            $scope.submit = function () {
+                if ($scope.Z) {
+                    var product = {
+                        "XaxisCheck": $scope.X,
+                        "YaxisCheck": $scope.Y,
+                        "ZaxisCheck": $scope.Z,
+                        "ClustersDataLength": 3,
+                        "NumberOfClstrs": 0
+                    }
+               //3D case
+                    $http.post('http://localhost:2222/api/api/kmeansdata', product).
+                    success(function (data, status, headers, config) {
+                    }).
+                    error(function (data, status, headers, config) {
+                        alert("erro");
+                    });
+                }//2D Case
+                else {
+                    var product = {
+                        "XaxisCheck": $scope.X,
+                        "YaxisCheck": $scope.Y,
+                        "ClustersDataLength": 2,
+                        "NumberOfClstrs": 0
+                        
+                    }
+                    $http.post('http://localhost:2222/api/api/kmeansdata', product).
+                    success(function (data, status, headers, config) {
+                    }).
+                    error(function (data, status, headers, config) {
+                        alert("erro");
+                    });
+                }
+            };
+        }]);
+    </script>
+    <script>
+        function showGraph() {
+            var iframe = $("#forshowGraph");
+            iframe.attr("src", iframe.data("src"));
+        }
+    </script>
+    <h2>Check Sample</h2>
+    <form ng-submit="submit()" ng-controller="KmeansDataCheckController">
+        <div>X Cordinate:<input type="text" ng-model="X" required></div></br>
+        <div>Y Cordinate:<input type="text" ng-model="Y" required></div></br>
+        <div>Z Cordinate:<input type="text" ng-model="Z"></div></br> 
+        <div> <input type="submit" id="productsubmit" value="Check Sample" onclick="showGraph()" /></div>
+        
+    </form>
+    <script src="App_Content/JS/jquery.min.js"></script>
+    <iframe id="forshowGraph" data-src="KmeansSampleResult.html" src="about:blank" frameborder="0" hspace="0" vspace="0" marginheight="0" marginwidth="0"></iframe>
+
+
+        
+</body>
+</html>

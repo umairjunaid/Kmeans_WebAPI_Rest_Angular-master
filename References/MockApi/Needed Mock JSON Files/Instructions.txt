@@ -1,0 +1,2 @@
+- Loadpath for MockApi must be "2" or "3" if your data have two or three attributes respectively. All else will remain the same when using the AnomalyDetectionAPI.
+- Extract the zipped File in your "C:\" directory. This contains the mock json files for the cases of data having two and three attributes. 
